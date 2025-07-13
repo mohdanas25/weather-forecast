@@ -1,4 +1,4 @@
-const api_key = 'YOUR_API_KEY_HERE';
+const api_key = 'YOUR_API_KEY_HERE';;
 const search_btn = document.querySelector("#search-btn");
 const weatherOverview = document.querySelector(".weather-overview");
 const forecastContainer = document.querySelector(".daily-forecast");
