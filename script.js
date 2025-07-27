@@ -2,6 +2,10 @@ const api_key = 'YOUR_API_KEY_HERE';
 const search_btn = document.querySelector("#search-btn");
 const weatherOverview = document.querySelector(".weather-overview");
 const forecastContainer = document.querySelector(".daily-forecast");
+const errorMessage = document.querySelector(".error-message");
+const section = document.querySelector(".section");
+const topSection = document.querySelector(".top-section");
+const searchLocation = document.querySelector(".search-location");
 
 search_btn.addEventListener("click", async () => {
 
@@ -17,13 +21,23 @@ search_btn.addEventListener("click", async () => {
 
         const weatherData = await weatherRes.json();
 
+        if (weatherData.cod !== 200) {
+            showNoData(`No data found for "${city_name}"`);
+            return;
+        }
+
         const forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${api_key}&units=metric`);
 
         const forecastData = await forecastRes.json();
 
-        document.querySelector(".section").style.removeProperty("justify-content");
-        document.querySelector(".top-section").style.justifyContent = "space-between";
-        document.querySelector(".search-location").style.width = "40%";
+        if (forecastData.cod !== "200") {
+            showNoData("Forecast data unavailable");
+            return;
+        }
+
+        hideError();
+        adjustLayoutForData();
+
         weatherOverview.style.display = "flex";
 
         weatherOverview.innerHTML = `
@@ -63,4 +77,31 @@ function getDayName(dateStr) {
     const date = new Date(dateStr);
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return days[date.getDay()];
+}
+
+function showNoData(message) {
+    weatherOverview.style.display = "none";
+    weatherOverview.innerHTML = "";
+    forecastContainer.innerHTML = "";
+
+    resetLayoutForNoData();
+
+    errorMessage.textContent = message;
+    errorMessage.classList.remove("hidden");
+}
+
+function hideError() {
+    errorMessage.classList.add("hidden");
+}
+
+function adjustLayoutForData() {
+    section.style.removeProperty("justify-content");
+    topSection.style.justifyContent = "space-between";
+    searchLocation.style.width = "40%";
+}
+
+function resetLayoutForNoData() {
+    section.style.justifyContent = "center";
+    topSection.style.justifyContent = "center";
+    searchLocation.style.width = "80%";
 }

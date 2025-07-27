@@ -97,9 +97,30 @@ h1 {
     height: 100px;
 }
 
+.weather-overview p strong {
+    color: #333;
+    font-weight: 500;
+}
+
 .weather-overview p {
     font-size: 1rem;
     color: var(--text-muted);
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.1);
+    color: #b91c1c;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 1px solid #f87171;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-weight: 500;
+    max-width: 400px;
+}
+
+.hidden {
+    display: none;
 }
 
 .daily-forecast {
@@ -107,15 +128,16 @@ h1 {
     width: 100%;
     max-width: 1100px;
     margin-top: 3rem;
-    gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 1rem;
 }
 
 .daily-forecast .forecast-card {
     background-color: var(--task-color);
-    flex: 1 1 clamp(150px, 20%, 200px);
+    flex: 1 1 150px;
     max-width: 200px;
+    min-width: 110px;
     padding: 1rem;
     align-items: center;
     text-align: center;
